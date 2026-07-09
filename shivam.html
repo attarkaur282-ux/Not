@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚡ SATVIR EXPLOITS • ULTRA UNIQUE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           RESET + BASE
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: default;
+            touch-action: none;
+        }
+
+        body {
+            font-family: 'Rajdhani', 'Orbitron', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: #050508;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99999;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ============================================
+           BACKGROUND VIDEO - FULL SCREEN (MUTED)
+           ALWAYS VISIBLE - EVEN IN FULLSCREEN
+           ============================================ */
+        #bgVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+            filter: brightness(0.3) saturate(0.4) contrast(1.4);
+            background: #050508;
+        }
+
+        /* Video fullscreen mode mein bhi cover karega */
+        #bgVideo:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #bgVideo:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+        }
+
+        #bgVideo:fullscreen {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Dark Overlay on Video */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 8, 0.6);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           FLOATING STARS
+           ============================================ */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ============================================
+           GLITCH LINES
+           ============================================ */
+        .glitch-line {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 0, 100, 0.08);
+            z-index: 2;
+            pointer-events: none;
+            animation: glitchMove 8s linear infinite;
+        }
+
+        .glitch-line:nth-child(1) { top: 20%; animation-delay: 0s; }
+        .glitch-line:nth-child(2) { top: 45%; animation-delay: 2s; height: 1px; }
+        .glitch-line:nth-child(3) { top: 70%; animation-delay: 4s; }
+        .glitch-line:nth-child(4) { top: 90%; animation-delay: 1s; height: 1px; }
+
+        @keyframes glitchMove {
+            0%, 100% { transform: translateX(-100%); opacity: 0; }
+            10%, 90% { opacity: 0.3; }
+            50% { transform: translateX(100%); opacity: 0.5; }
+        }
+
+        /* ============================================
+           HIDE STATUS & NAV
+           ============================================ */
+        .hide-status {
+            position: fixed;
+            top: -200px;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: 9999999;
+            background: #050508;
+            pointer-events: none;
+        }
+
+        .hide-nav {
+            position: fixed;
+            bottom: -200px;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: 9999999;
+            background: #050508;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           HIJACK OVERLAY
+           ============================================ */
+        .hijack-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #050508;
+            z-index: 999999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: default;
+            touch-action: none;
+            pointer-events: auto;
+            overflow: hidden;
+        }
+
+        .hijack-overlay.active {
+            display: flex;
+        }
+
+        /* ============================================
+           SCANLINE (Glitch Effect)
+           ============================================ */
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 3px,
+                rgba(255, 0, 100, 0.03) 3px,
+                rgba(255, 0, 100, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 9999999;
+            animation: scanMove 0.15s linear infinite;
+        }
+
+        @keyframes scanMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .ransom-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 0, 100, 0.05);
+            border-bottom: 1px solid rgba(255, 0, 100, 0.15);
+            text-align: center;
+            z-index: 9999999;
+            backdrop-filter: blur(10px);
+        }
+
+        .ransom-header h2 {
+            color: #ff0066;
+            font-size: 0.9rem;
+            letter-spacing: 8px;
+            text-shadow: 0 0 40px rgba(255, 0, 102, 0.3);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .ransom-header .sub {
+            color: rgba(255, 0, 102, 0.2);
+            font-size: 0.4rem;
+            letter-spacing: 10px;
+            margin-top: 2px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* ============================================
+           MAIN CARD - ULTRA UNIQUE
+           ============================================ */
+        .card {
+            max-width: 750px;
+            width: 92%;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(40px) saturate(2);
+            -webkit-backdrop-filter: blur(40px) saturate(2);
+            border-radius: 60px 60px 40px 40px;
+            padding: 35px 28px 30px;
+            border: 1px solid rgba(255, 0, 102, 0.08);
+            box-shadow: 
+                0 0 60px rgba(255, 0, 102, 0.03),
+                inset 0 0 60px rgba(255, 0, 102, 0.02);
+            position: relative;
+            overflow: hidden;
+            z-index: 9999999;
+            pointer-events: auto;
+        }
+
+        /* Card Glow Border - Unique */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: conic-gradient(from 0deg, 
+                #ff0066, #ff3366, #ff00aa, #6600ff, #00ccff, #ff0066
+            );
+            border-radius: 62px 62px 42px 42px;
+            z-index: -1;
+            opacity: 0.08;
+            animation: spinBorder 8s linear infinite;
+            filter: blur(12px);
+        }
+
+        @keyframes spinBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           PROFILE - ULTRA UNIQUE
+           ============================================ */
+        .profile-wrap {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 0, 102, 0.2);
+            box-shadow: 
+                0 0 60px rgba(255, 0, 102, 0.1),
+                inset 0 0 60px rgba(255, 0, 102, 0.05);
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            filter: saturate(1.1);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.08) rotate(-3deg);
+            border-color: rgba(255, 0, 102, 0.5);
+            box-shadow: 0 0 100px rgba(255, 0, 102, 0.2);
+        }
+
+        /* Multi-Ring Effect */
+        .profile-ring {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: 146px;
+            height: 146px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #ff0066;
+            border-right-color: #6600ff;
+            animation: spinRing 4s linear infinite;
+            pointer-events: none;
+        }
+
+        .profile-ring-2 {
+            position: absolute;
+            top: -14px;
+            left: -14px;
+            width: 158px;
+            height: 158px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            border-bottom-color: #00ccff;
+            border-left-color: #ff00aa;
+            animation: spinRing 6s linear infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Status Dot - Pulse with Glow */
+        .status-dot {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: #00ff88;
+            border-radius: 50%;
+            border: 3px solid #050508;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 136, 0.4),
+                inset 0 0 20px rgba(0, 255, 136, 0.2);
+            animation: pulseDotNew 1.8s infinite;
+        }
+
+        .status-dot.offline {
+            background: #ff0044;
+            box-shadow: 0 0 30px rgba(255, 0, 68, 0.4);
+        }
+
+        @keyframes pulseDotNew {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        /* ============================================
+           NAME - Unique Gradient
+           ============================================ */
+        h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #ff0066, #ff00aa, #6600ff, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 12px;
+            letter-spacing: 4px;
+            filter: drop-shadow(0 0 30px rgba(255, 0, 102, 0.1));
+            animation: glowTextNew 4s ease-in-out infinite;
+        }
+
+        @keyframes glowTextNew {
+            0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 0, 102, 0.1)); }
+            50% { filter: drop-shadow(0 0 60px rgba(255, 0, 102, 0.2)); }
+        }
+
+        /* ============================================
+           TAGLINE - Unique
+           ============================================ */
+        .tagline {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.15);
+            letter-spacing: 4px;
+            margin-top: 4px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tagline .heart {
+            color: #ff0066;
+            animation: heartBeatNew 1.2s infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartBeatNew {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+        }
+
+        /* ============================================
+           TIMER - Ultra Unique
+           ============================================ */
+        .timer {
+            margin: 10px 0;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #00ccff;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 8px;
+            text-shadow: 0 0 60px rgba(0, 204, 255, 0.15);
+            background: rgba(0, 204, 255, 0.02);
+            padding: 8px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 204, 255, 0.05);
+            display: inline-block;
+            transition: 0.6s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ============================================
+           BIO - Ultra Unique (EXACT SCREENSHOT LAYOUT)
+           ============================================ */
+        .bio {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 24px;
+            padding: 16px 20px;
+            margin: 12px 0 16px;
+            border-left: 2px solid #ff0066;
+            border-right: 2px solid transparent;
+            color: rgba(255, 220, 200, 0.6);
+            font-size: 0.8rem;
+            line-height: 2.2;
+            text-align: left;
+            transition: 0.5s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+            width: 100%;
+            backdrop-filter: blur(4px);
+        }
+
+        .bio:hover {
+            border-right-color: #ff0066;
+            background: rgba(255, 0, 102, 0.02);
+        }
+
+        .bio .label {
+            color: #ff0066;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        .bio .value {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .bio .love-line {
+            color: #ff3388;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-shadow: 0 0 30px rgba(255, 51, 136, 0.1);
+        }
+
+        .bio .value i {
+            color: #ff0066;
+            opacity: 0.6;
+            margin-right: 6px;
+        }
+
+        /* ============================================
+           ONLINE STATUS - Unique
+           ============================================ */
+        .bio .online-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00ff88;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .bio .online-status .small-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseDotNew 1.8s infinite;
+        }
+
+        .bio .online-status.offline {
+            color: #ff0044;
+        }
+
+        .bio .online-status.offline .small-dot {
+            background: #ff0044;
+        }
+
+        /* ============================================
+           DIVIDER - Unique
+           ============================================ */
+        .divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0 12px;
+            opacity: 0.08;
+            width: 100%;
+        }
+
+        .divider .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff0066, transparent);
+        }
+
+        .divider i {
+            color: #ff0066;
+            font-size: 0.6rem;
+        }
+
+        /* ============================================
+           BUTTONS - Ultra Unique
+           ============================================ */
+        .ransom-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .ransom-btn {
+            padding: 10px 22px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 0, 102, 0.15);
+            background: rgba(255, 0, 102, 0.02);
+            color: rgba(255, 0, 102, 0.3);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.4s ease;
+            text-transform: uppercase;
+            touch-action: manipulation;
+        }
+
+        .ransom-btn:hover {
+            background: rgba(255, 0, 102, 0.08);
+            border-color: #ff0066;
+            color: #ff0066;
+            box-shadow: 0 0 30px rgba(255, 0, 102, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .ransom-btn.primary {
+            background: rgba(255, 0, 102, 0.08);
+            border-color: #ff0066;
+            color: #ff0066;
+            animation: btnPulseNew 2.5s infinite;
+        }
+
+        @keyframes btnPulseNew {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 102, 0.05); }
+            50% { box-shadow: 0 0 50px rgba(255, 0, 102, 0.15); }
+        }
+
+        .ransom-btn.primary:hover {
+            background: rgba(255, 0, 102, 0.15);
+            box-shadow: 0 0 60px rgba(255, 0, 102, 0.2);
+        }
+
+        /* ============================================
+           FOOTER - Unique
+           ============================================ */
+        .footer-credit {
+            margin: 8px 0 0;
+            padding: 6px 15px;
+            text-align: center;
+            border-radius: 20px;
+            background: rgba(255, 0, 102, 0.01);
+            border: 1px solid rgba(255, 0, 102, 0.02);
+            width: 100%;
+        }
+
+        .footer-credit p {
+            font-size: 0.45rem;
+            color: rgba(255, 255, 255, 0.05);
+            letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .footer-credit .highlight {
+            color: #ff0066;
+            opacity: 0.2;
+        }
+
+        /* ============================================
+           TAP BUTTON - ULTRA BLACK + RED (CENTER)
+           ============================================ */
+        .tap-btn {
+            position: fixed;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            z-index: 9999999;
+            padding: 28px 65px;
+            border-radius: 30px;
+            border: 2px solid #ff0000;
+            background: #000000;
+            color: #ff0000;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            cursor: pointer;
+            transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            touch-action: manipulation;
+            text-transform: uppercase;
+            box-shadow: 
+                0 0 80px rgba(255, 0, 0, 0.15),
+                inset 0 0 80px rgba(255, 0, 0, 0.02);
+            animation: tapPulse 2s ease-in-out infinite;
+            text-shadow: 0 0 60px rgba(255, 0, 0, 0.2);
+        }
+
+        .tap-btn:hover {
+            transform: translate(-50%, 50%) scale(1.05);
+            box-shadow: 0 0 120px rgba(255, 0, 0, 0.25);
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+
+        .tap-btn:active {
+            transform: translate(-50%, 50%) scale(0.95);
+        }
+
+        .tap-btn i {
+            margin-right: 15px;
+            font-size: 2rem;
+            color: #ff0000;
+            animation: iconPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes tapPulse {
+            0%, 100% { 
+                box-shadow: 0 0 60px rgba(255, 0, 0, 0.1);
+                border-color: #ff0000;
+            }
+            50% { 
+                box-shadow: 0 0 120px rgba(255, 0, 0, 0.25);
+                border-color: #ff3333;
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* ============================================
+           DP TAP HINT
+           ============================================ */
+        .dp-tap-hint {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.4rem;
+            color: rgba(255, 0, 102, 0.1);
+            letter-spacing: 2px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: 0.5s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .profile-wrap:hover .dp-tap-hint {
+            opacity: 1;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 550px) {
+            .card { padding: 22px 16px 20px; border-radius: 40px 40px 30px 30px; }
+            h1 { font-size: 1.4rem; letter-spacing: 2px; }
+            .profile-img { width: 100px; height: 100px; }
+            .profile-ring { width: 116px; height: 116px; }
+            .profile-ring-2 { width: 126px; height: 126px; }
+            .timer { font-size: 1.6rem; padding: 6px 18px; letter-spacing: 4px; }
+            .bio { font-size: 0.7rem; padding: 12px 14px; line-height: 2; }
+            .ransom-header h2 { font-size: 0.7rem; letter-spacing: 4px; }
+            
+            .tap-btn {
+                padding: 20px 40px;
+                font-size: 1.5rem;
+                letter-spacing: 5px;
+                border-radius: 25px;
+            }
+            .tap-btn i {
+                font-size: 1.4rem;
+                margin-right: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 { font-size: 1.1rem; }
+            .timer { font-size: 1.3rem; padding: 4px 14px; letter-spacing: 3px; }
+            .profile-img { width: 80px; height: 80px; }
+            .profile-ring { width: 96px; height: 96px; }
+            .profile-ring-2 { width: 106px; height: 106px; }
+            .card { padding: 16px 10px 14px; border-radius: 30px; }
+            .bio { font-size: 0.6rem; padding: 8px 10px; line-height: 1.8; }
+            .ransom-btn { padding: 6px 14px; font-size: 0.4rem; }
+            
+            .tap-btn {
+                padding: 15px 28px;
+                font-size: 1.2rem;
+                letter-spacing: 3px;
+                border-radius: 20px;
+            }
+            .tap-btn i {
+                font-size: 1rem;
+                margin-right: 8px;
+            }
+        }
+
+        /* ============================================
+           HIDE TAP BUTTON WHEN HIJACKED
+           ============================================ */
+        .tap-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 50%) scale(0.8);
+        }
+
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+<!-- ============================================
+BACKGROUND VIDEO (MUTED - NO SOUND)
+ALWAYS RUNNING - EVEN IN FULLSCREEN
+============================================ -->
+<video id="bgVideo" autoplay loop muted playsinline webkit-playsinline>
+    <!-- 🔴 YAHAN APNI VIDEO LINK DAALO 🔴 -->
+    <source src="https://files.catbox.moe/ie6l5x.mp4" type="video/mp4">
+    <!-- Fallback video agar aapki video na chale -->
+    <source src="https://cdn.pixabay.com/video/2023/10/05/183181-873273775_large.mp4" type="video/mp4">
+</video>
+
+<!-- Dark Overlay -->
+<div class="video-overlay"></div>
+
+<!-- ============================================
+STARS
+============================================ -->
+<div class="stars" id="stars"></div>
+
+<!-- ============================================
+GLITCH LINES
+============================================ -->
+<div class="glitch-line"></div>
+<div class="glitch-line"></div>
+<div class="glitch-line"></div>
+<div class="glitch-line"></div>
+
+<!-- ============================================
+HIDE STATUS & NAV
+============================================ -->
+<div class="hide-status"></div>
+<div class="hide-nav"></div>
+
+<!-- ============================================
+TAP BUTTON - CENTER + ULTRA BLACK + RED
+============================================ -->
+<button class="tap-btn" id="tapBtn" onclick="triggerHijack()">
+    <i class="fas fa-hand-pointer"></i> TAP
+</button>
+
+<!-- ============================================
+HIJACK OVERLAY
+============================================ -->
+<div class="hijack-overlay" id="hijackOverlay">
+    <div class="scanline"></div>
+
+    <div class="ransom-header">
+        <h2>⚠️ SCREEN HIJACKED ⚠️</h2>
+        <div class="sub">✦ SATVIR EXPLOITS • ULTRA UNIQUE ✦</div>
+    </div>
+
+    <div class="card">
+        <div style="text-align: center;">
+            <div class="profile-wrap" onclick="openTelegram()">
+                <img class="profile-img" src="https://files.catbox.moe/dz0wfc.webp" alt="SATVIR EXPLOITS">
+                <div class="profile-ring"></div>
+                <div class="profile-ring-2"></div>
+                <span class="status-dot" id="statusDot"></span>
+                <span class="dp-tap-hint"><i class="fas fa-hand-pointer"></i> TAP TO OPEN TG</span>
+            </div>
+            <h1>SATVIR EXPLOITS</h1>
+            <p class="tagline">
+                <i class="fas fa-map-pin"></i> Aapke Dil Me 
+                <i class="fas fa-heart heart"></i> 
+                <i class="fas fa-code"></i> Tech & Hacking
+            </p>
+        </div>
+
+        <div style="text-align: center;">
+            <div class="timer" id="countdownDisplay">05:00</div>
+        </div>
+
+        <!-- ============================================
+        BIO - EXACT SCREENSHOT LAYOUT
+        ============================================ -->
+        <div class="bio">
+            <div><span class="label">NAME</span><br><span class="value"><i class="fas fa-user-astronaut"></i> SATVIR EXPLOITS</span></div>
+            <div><span class="label">AGE</span><br><span class="value"><i class="fas fa-fire"></i> 14 Years</span></div>
+            <div><span class="label">GENDER</span><br><span class="value"><i class="fas fa-venus-mars"></i> Male</span></div>
+            <div><span class="label">LOCATION</span><br><span class="value"><i class="fas fa-heart" style="color:#ff0066;"></i> Colombia • Aapke Dil Me</span></div>
+            <div><span class="label">CONTACT</span><br><span class="value"><i class="fas fa-phone"></i> +57 (301) 568-1670</span></div>
+            <div>
+                <span class="label">STATUS</span><br>
+                <span class="value">
+                    <span class="online-status" id="onlineStatus">
+                        <span class="small-dot"></span> 
+                        <span id="statusText">Online</span>
+                    </span>
+                </span>
+            </div>
+            <div>
+                <span class="label">LAST SEEN</span><br>
+                <span class="value"><i class="fas fa-clock"></i> <span id="lastSeen">Just now</span></span>
+            </div>
+            <div><span class="label">BIO</span><br><span class="value love-line"><i class="fas fa-quote-left"></i> Hallo everyone 😭😭 • EVEN CALCULATOR CAN'T CALCULATE <br>HOW MUCH I LOVE YOU ❣️ <i class="fas fa-quote-right"></i></span></div>
+        </div>
+
+        <div class="divider">
+            <span class="line"></span>
+            <i class="fas fa-bolt"></i>
+            <i class="fas fa-heart" style="color:#ff0066;"></i>
+            <i class="fas fa-bolt"></i>
+            <span class="line"></span>
+        </div>
+
+        <div class="ransom-buttons">
+            <button class="ransom-btn primary" onclick="unlockScreen()">
+                <i class="fas fa-unlock"></i> UNLOCK NOW
+            </button>
+            <button class="ransom-btn" onclick="triggerHijack()">
+                <i class="fas fa-sync"></i> RESET
+            </button>
+        </div>
+
+        <div class="footer-credit">
+            <p><span class="highlight">✦ Developer — @notxsatvir ✦</span> | <span class="highlight">✈️ @SATVIR_EXPLOITS</span></p>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+MUSIC (Separate from Background Video)
+============================================ -->
+<audio id="bgMusic" loop>
+    <source src="https://dl.dropboxusercontent.com/scl/fi/bsnvxbt523ahpnp2s8zum/YnBqLn28a3EiTh9BrrtL-JMcfglBdrzE.m4a?rlkey=gzfjszzl76tqqnmvg58iqtaww&dl=1" type="audio/mp4">
+</audio>
+
+<script>
+    // ============================================
+    // CREATE STARS
+    // ============================================
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.setProperty('--duration', (Math.random() * 4 + 2) + 's');
+        star.style.animationDelay = (Math.random() * 5) + 's';
+        star.style.width = (Math.random() * 3 + 1) + 'px';
+        star.style.height = star.style.width;
+        star.style.opacity = Math.random() * 0.5 + 0.2;
+        starsContainer.appendChild(star);
+    }
+
+    // ============================================
+    // SATVIR EXPLOITS - ULTRA UNIQUE
+    // ============================================
+
+    let timeLeft = 300;
+    let timerInterval = null;
+    let isLocked = false;
+    let isOnline = true;
+    let lastActiveTime = new Date();
+
+    // ============================================
+    // OPEN TELEGRAM ON DP TAP
+    // ============================================
+    function openTelegram() {
+        window.open('https://t.me/SATVIR_EXPLOITS', '_blank');
+        resetActivity();
+    }
+
+    // ============================================
+    // LIVE STATUS UPDATE
+    // ============================================
+    function updateStatus() {
+        const statusDot = document.getElementById('statusDot');
+        const onlineStatus = document.getElementById('onlineStatus');
+        const statusText = document.getElementById('statusText');
+        const lastSeen = document.getElementById('lastSeen');
+
+        const now = new Date();
+        const diffSeconds = Math.floor((now - lastActiveTime) / 1000);
+
+        if (diffSeconds > 60) {
+            isOnline = false;
+            statusDot.className = 'status-dot offline';
+            onlineStatus.className = 'online-status offline';
+            statusText.textContent = 'Offline';
+            
+            const minutes = Math.floor(diffSeconds / 60);
+            const seconds = diffSeconds % 60;
+            if (minutes > 0) {
+                lastSeen.textContent = `${minutes}m ${seconds}s ago`;
+            } else {
+                lastSeen.textContent = `${seconds}s ago`;
+            }
+        } else {
+            isOnline = true;
+            statusDot.className = 'status-dot';
+            onlineStatus.className = 'online-status';
+            statusText.textContent = 'Online';
+            
+            if (diffSeconds < 5) {
+                lastSeen.textContent = 'Just now';
+            } else if (diffSeconds < 60) {
+                lastSeen.textContent = `${diffSeconds}s ago`;
+            }
+        }
+
+        // Timer color
+        if (timeLeft <= 60) {
+            countdownDisplay.style.color = '#ff0044';
+            countdownDisplay.style.textShadow = '0 0 80px rgba(255, 0, 68, 0.2)';
+        } else if (timeLeft <= 120) {
+            countdownDisplay.style.color = '#ff8800';
+            countdownDisplay.style.textShadow = '0 0 60px rgba(255, 136, 0, 0.15)';
+        } else {
+            countdownDisplay.style.color = '#00ccff';
+            countdownDisplay.style.textShadow = '0 0 60px rgba(0, 204, 255, 0.1)';
+        }
+    }
+
+    function resetActivity() {
+        lastActiveTime = new Date();
+        isOnline = true;
+        updateStatus();
+    }
+
+    // ============================================
+    // FULL SCREEN HIJACK
+    // ============================================
+    const overlay = document.getElementById('hijackOverlay');
+    const countdownDisplay = document.getElementById('countdownDisplay');
+    const tapBtn = document.getElementById('tapBtn');
+    const audio = document.getElementById('bgMusic');
+
+    function hideBars() {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        }
+        if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen();
+        }
+        if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        }
+        document.querySelector('.hide-status').style.top = '-200px';
+        document.querySelector('.hide-nav').style.bottom = '-200px';
+    }
+
+    function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+        updateStatus();
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            countdownDisplay.textContent = '00:00';
+            overlay.classList.remove('active');
+            isLocked = false;
+            document.body.style.pointerEvents = 'auto';
+            window.onpopstate = null;
+            tapBtn.classList.remove('hidden');
+            document.querySelector('.ransom-header h2').textContent = '✅ SCREEN UNLOCKED ✅';
+            document.querySelector('.ransom-header .sub').textContent = '✦ SECURE MODE DISABLED ✦';
+            document.querySelector('.ransom-btn.primary').textContent = '✅ DONE';
+            document.querySelector('.ransom-btn.primary').onclick = function() {
+                overlay.style.display = 'none';
+                document.exitFullscreen().catch(() => {});
+            };
+        }
+        timeLeft--;
+    }
+
+    function triggerHijack() {
+        // Play background music (not video sound)
+        audio.play().catch(() => {});
+        tapBtn.classList.add('hidden');
+
+        overlay.style.display = 'flex';
+        setTimeout(() => {
+            overlay.classList.add('active');
+        }, 100);
+
+        isLocked = true;
+        timeLeft = 300;
+        document.body.style.pointerEvents = 'none';
+
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function() {
+            if (isLocked && timeLeft > 0) {
+                history.pushState(null, null, location.href);
+            }
+        };
+
+        hideBars();
+
+        document.querySelector('.ransom-header h2').textContent = '⚠️ SCREEN HIJACKED ⚠️';
+        document.querySelector('.ransom-header .sub').textContent = '✦ SATVIR EXPLOITS • ULTRA UNIQUE ✦';
+        document.querySelector('.ransom-btn.primary').textContent = '🔓 UNLOCK NOW';
+        document.querySelector('.ransom-btn.primary').onclick = function() {
+            unlockScreen();
+        };
+
+        resetActivity();
+    }
+
+    function unlockScreen() {
+        if (isLocked && timeLeft > 0) {
+            if (confirm('⚠️ Are you sure you want to unlock early?')) {
+                timeLeft = 0;
+                updateTimer();
+                clearInterval(timerInterval);
+                overlay.classList.remove('active');
+                isLocked = false;
+                document.body.style.pointerEvents = 'auto';
+                window.onpopstate = null;
+                tapBtn.classList.remove('hidden');
+                document.querySelector('.ransom-header h2').textContent = '✅ SCREEN UNLOCKED ✅';
+                document.querySelector('.ransom-header .sub').textContent = '✦ SECURE MODE DISABLED ✦';
+                document.querySelector('.ransom-btn.primary').textContent = '✅ DONE';
+                document.querySelector('.ransom-btn.primary').onclick = function() {
+                    overlay.style.display = 'none';
+                    document.exitFullscreen().catch(() => {});
+                };
+                resetActivity();
+            }
+        }
+    }
+
+    // ============================================
+    // KEYBOARD & TOUCH BLOCK
+    // ============================================
+    document.addEventListener('keydown', function(e) {
+        if (isLocked && timeLeft > 0) {
+            if (e.key === 'Backspace' || e.key === 'Escape') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            e.preventDefault();
+            return false;
+        }
+        resetActivity();
+    });
+
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+
+    document.addEventListener('touchstart', function(e) {
+        if (isLocked && timeLeft > 0) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }
+        resetActivity();
+    }, { passive: false });
+
+    document.addEventListener('touchmove', function(e) {
+        if (isLocked && timeLeft > 0) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    document.addEventListener('click', resetActivity);
+    document.addEventListener('mousemove', resetActivity);
+    document.addEventListener('scroll', resetActivity);
+
+    // ============================================
+    // WAKE LOCK
+    // ============================================
+    let wakeLock = null;
+    async function requestWakeLock() {
+        try {
+            if ('wakeLock' in navigator) {
+                wakeLock = await navigator.wakeLock.request('screen');
+            }
+        } catch (err) {}
+    }
+
+    document.addEventListener('fullscreenchange', function() {
+        if (!document.fullscreenElement && isLocked && timeLeft > 0) {
+            hideBars();
+        }
+    });
+
+    // ============================================
+    // VIDEO FALLBACK - If your video fails to load
+    // ============================================
+    const video = document.getElementById('bgVideo');
+    video.addEventListener('error', function() {
+        // If your video fails, use fallback
+        video.src = 'https://cdn.pixabay.com/video/2023/10/05/183181-873273775_large.mp4';
+        video.load();
+        video.play();
+    });
+
+    // ============================================
+    // AUTO STATUS UPDATE
+    // ============================================
+    setInterval(updateStatus, 2000);
+
+    // ============================================
+    // INIT
+    // ============================================
+    console.log('⚡ SATVIR EXPLOITS - ULTRA UNIQUE');
+    console.log('📌 DP: https://files.catbox.moe/dz0wfc.webp');
+    console.log('📱 Phone: +57 (301) 568-1670');
+    console.log('🔒 5 Minute screen lock');
+    console.log('🟢 Live Online/Offline Status');
+    console.log('⏰ Last Seen: Real-time');
+    console.log('👆 Tap DP to open Telegram: @SATVIR_EXPLOITS');
+    console.log('🎬 Background Video: Muted (No Sound)');
+</script>
+
+</body>
+</html>
